@@ -6,7 +6,7 @@ const { hash, compare } = require('./bc');
 let secrets = require('../secrets.json')
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 
 // MySQL-Database connection
 const db = mysql.createConnection({
