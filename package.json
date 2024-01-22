@@ -2,6 +2,7 @@
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.2",
+    "concurrently": "^8.2.2",
     "express": "^4.18.2",
     "mysql2": "^3.7.1",
     "node": "^21.2.0"
@@ -11,6 +12,9 @@
   "version": "1.0.0",
   "main": "test.js",
   "scripts": {
+    "start": "concurrently \"npm run start-backend\" \"npm run start-frontend\"",
+    "start-backend": "cd server && node server.js",
+    "start-frontend": "cd client && npm start",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -23,6 +27,5 @@
   "bugs": {
     "url": "https://github.com/ahmad-mj/HomeOfficeCheckIn/issues"
   },
-  "homepage": "https://github.com/ahmad-mj/HomeOfficeCheckIn#readme",
-  "devDependencies": {}
+  "homepage": "https://github.com/ahmad-mj/HomeOfficeCheckIn#readme"
 }
