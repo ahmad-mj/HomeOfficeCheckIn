@@ -20,17 +20,20 @@ function LoginComponent() {
     setLoading(true);
 
     try {
-      const userId = 'ahmad@test@de'
-      const plainPassword = "1234"
-      const response = await axios.post("http://localhost:3000/login", {
-        email: userId,
+      const plainPassword = "ahmad";
+      const userId = "Ahmad Mj";
+      const response = await axios.post(`http://localhost:3000/login`, {
+        user_name: userId,
         password: plainPassword,
       });
-      console.log('Response from server:', response.data);
+      console.log("Request data:", { user_name: userId, password: plainPassword });
+      console.log("Response from server:", response.data);
+
+      console.log("Response from server:", response.data);
       if (response.data.message === "Login success") {
         setError("");
         alert("Login successful!");
-       // redirect to homeoffice start? 
+        // redirect to homeoffice start?
       } else {
         setError("Invalid username or password");
       }
