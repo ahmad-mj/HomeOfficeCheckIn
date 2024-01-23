@@ -11,3 +11,60 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+
+/* LOGIN STYLE */
+.login {
+  width: 70%;
+  text-align: left;
+  font-size: 20px;
+  color: cornflowerblue;
+  margin-left: 50px;
+
+  header {
+    font-size: 2.5rem;
+    color: midnightblue;
+    margin-bottom: 10px;
+  }
+
+  .login-form {
+    padding: 20px;
+    border: 3px solid cornflowerblue;
+    border-radius: 10px;
+    box-shadow: 5px 5px;
+  }
+
+  form {
+    padding: 20px;
+    border: 3px solid cornflowerblue;
+  }
+
+
+  .input-group {
+    margin: 10px;
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+  }
+
+  input {
+    width: 50%;
+    height: 25px;
+    margin-left: 30px;
+  }
+
+  .btn {
+    margin: 0;
+  }
+
+  input:focus {
+    border-color: #66afe9;
+  }
+
+  .error-message {
+    font-size: 14px;
+    color: red;
+  }
+}
+
+/* HOME-OFFICE CHECK-IN STYLE */
