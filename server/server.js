@@ -1,12 +1,13 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mysql = require('mysql2');
-const bcrypt = require('bcryptjs');
-const { hash, compare } = require('./bc');
-let secrets = require('../secrets.json')
+const { compare } = require('./bc');
+let secrets = require('../secrets.json');
+const cors = require('cors');
 
 const app = express();
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3000;
+app.use(cors());
 
 // MySQL-Database connection
 const db = mysql.createConnection({
@@ -16,48 +17,89 @@ const db = mysql.createConnection({
   database: secrets.mySQL.database
 });
 
-// JSON-Requests Middleware
-app.use(bodyParser.json());
+// Check the database connection
+db.connect(err => {
+  if (err) {
+    console.error('Database connection failed:', err);
+    return;
+  }
+  console.log('Connected to database');
+});
 
+// JSON-Requests Middleware
+app.use(express.json());
+
+// TODO: Handle the request from the frontend to stop the HomeOffice time
+app.post('/stop-homeoffice/:userId', (req, res) => {
+  try {
+    const userId = req.params.userId;
+
+    // TODO: Add logic here for updating the database if needed
+   
+
+    // Send a success message back to the frontend
+    res.json({ success: true });
+  } catch (error) {
+    console.error('Error stopping HomeOffice:', error.message);
+    res.status(500).json({ success: false, error: 'Internal Server Error' });
+  }
+});
 
 app.get('/', (req, res) => {
   res.send('Home Office API Working!');
 });
 
-// user Login
+// User login
 app.post('/login', (req, res) => {
-  const { email, password } = req.body;
+  const { user_name, password } = req.body;
 
-  db.query('SELECT * FROM users WHERE email = ?', [email], (err, results) => {
+  console.log('Received login request with user_name:', user_name);
+  console.log('Received password:', password);
+  db.query('SELECT * FROM users WHERE user_name = ?', [user_name], async (err, results) => {
     if (err) {
-      console.error(err);
-      res.status(500).json({ error: 'status 500' });
+      console.error('Database error:', err);
+      res.status(500).json({ error: 'Internal Server Error' });
       return;
     }
 
     if (results.length === 0) {
+      console.log('User not found with user_name:', user_name);
       res.status(401).json({ error: 'Invalid credentials' });
       return;
     }
-
     const user = results[0];
-
+    try {
+      const isMatch = await compare(password, user.hashed_password);
+  
+      if (isMatch) {
+       return res.json({ message: 'Login success' });
+      } else {
+        return res.status(401).json({ error: 'Invalid Login data' });
+      }
+    } catch (error) {
+      console.error('Password error:', error);
+      return res.status(500).json({ error: 'Internal Server Error' });
+    }
+    
+    console.log('Stored hashed password:', user.hashed_password);
     compare(password, user.hashed_password)
       .then(isMatch => {
         if (isMatch) {
+          console.log('Login successful for user:', user_name);
           res.json({ message: 'Login success' });
         } else {
+          console.log('Invalid password for user:', user_name);
           res.status(401).json({ error: 'Invalid Login data' });
         }
       })
       .catch(err => {
         console.error('Password error:', err);
-        res.status(500).json({ error: 'status 500' });
+        res.status(500).json({ error: 'Internal Server Error' });
       });
   });
 });
 
 
 app.listen(PORT, () => {
-  console.log(`listening on port ${PORT}`);
+  console.log(`Listening on port ${PORT}`);
 });
