@@ -46,12 +46,12 @@ function LoginComponent() {
   };
 
   return (
-    <div className="login">
+    <div className="container">
       <header>Login</header>
-      <div className="login-form">
+      <div className="wrapper">
         <h3>HomeOffice CheckIn - Login</h3>
         <form onSubmit={handleSubmit}>
-          <div className="input-group">
+          <div className="content">
             <label>Username:</label>
             <input
               type="text"
@@ -61,7 +61,7 @@ function LoginComponent() {
               required
             />
           </div>
-          <div className="input-group">
+          <div className="content">
             <label>Password:</label>
             <input
               type="password"
@@ -71,7 +71,7 @@ function LoginComponent() {
               required
             />
           </div>
-          <div className="input-group btn">
+          <div className="content btn">
             <button type="submit" disabled={loading}>
               {loading ? "Logging in..." : "Login"}
             </button>
