@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-function LoginComponent() {
+function LoginComponent({ onLogin }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -20,20 +20,16 @@ function LoginComponent() {
     setLoading(true);
 
     try {
-      const plainPassword = "ahmad";
-      const userId = "Ahmad Mj";
       const response = await axios.post(`http://localhost:3000/login`, {
-        user_name: userId,
-        password: plainPassword,
+        user_name: username,
+        password: password,
       });
-      console.log("Request data:", { user_name: userId, password: plainPassword });
-      console.log("Response from server:", response.data);
 
-      console.log("Response from server:", response.data);
       if (response.data.message === "Login success") {
         setError("");
-        alert("Login successful!");
-        // redirect to homeoffice start?
+        onLogin({
+          userId: response.data.userId,
+        });
       } else {
         setError("Invalid username or password");
       }
