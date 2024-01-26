@@ -1,7 +1,5 @@
 # MySQL Database Connection with JavaScript
 
-This project demonstrates how to connect to a MySQL database using JavaScript in a Node.js environment.
-
 ## Prerequisites
 
 - Node.js installed on your system
