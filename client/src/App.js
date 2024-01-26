@@ -1,13 +1,22 @@
-import './App.css';
-import HomeOfficeComponent from './HomeOfficeComponent';
-import LoginComponent from './LoginComponent';
+import React, { useState } from "react";
+import "./App.css";
+import LoginComponent from "./LoginComponent";
+import HomeOfficeComponent from "./HomeOfficeComponent";
 
 function App() {
+  const [userInformation, setUserInformation] = useState(null);
+
+  const handleLogin = (userData) => {
+    setUserInformation(userData);
+  };
+
   return (
     <div className="App">
-      Client serving
-      <LoginComponent />
-      <HomeOfficeComponent></HomeOfficeComponent>
+      {userInformation ? (
+        <HomeOfficeComponent userInformation={userInformation} />
+      ) : (
+        <LoginComponent onLogin={handleLogin} />
+      )}
     </div>
   );
 }
