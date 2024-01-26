@@ -7,7 +7,7 @@ const cors = require("cors");
 const app = express();
 const PORT = process.env.PORT || 3000;
 app.use(cors());
-
+async function startServer() {
 // MySQL-Database connection
 const db = await mysql.createConnection({
   host: secrets.mySQL.host,
@@ -29,32 +29,48 @@ db.connect((err) => {
 app.use(express.json());
 
 // TODO: Handle the request from the frontend to stop the HomeOffice time
-app.post('/stop-homeoffice/:userId', (req, res) => {
+app.post('/stop-homeoffice/:userId', async (req, res) => {
   try {
     const userId = req.params.userId;
+    const endTime = new Date(); // Aktuelle Uhrzeit
 
-    // TODO: Add logic here for updating the database if needed
+    // save stopTime in db
+    await db.query('UPDATE home_office_time SET endTime = ? WHERE userID = ? AND endTime IS NULL', [endTime, userId]);
 
-    // Send a success message back to the frontend
-    res.json({ success: true });
+
+    res.json({ success: true, endTime });
   } catch (error) {
     console.error("Error stopping HomeOffice:", error.message);
     res.status(500).json({ success: false, error: "Internal Server Error" });
   }
 });
-app.post("/start-homeoffice/:userId", (req, res) => {
+app.post("/start-homeoffice/:userId", async (req, res) => {
   try {
     const userId = req.params.userId;
+    const startTime = new Date(); // Aktuelle Uhrzeit
 
-    // TODO: Add logic here for updating the database if needed
+    // save startTime in db
+    await db.query('INSERT INTO home_office_time (userID, startTime, endTime) VALUES (?, ?, ?)', [userId, startTime, startTime]);
 
-    // Send a success message back to the frontend
-    res.json({ success: true });
+
+    res.json({ success: true, startTime });
   } catch (error) {
     console.error("Error starting HomeOffice:", error.message);
     res.status(500).json({ success: false, error: "Internal Server Error" });
   }
 });
+
+app.get('/home-office-times/:userId', async (req, res) => {
+  try {
+    const userId = req.params.userId;
+    const homeOfficeTimes = await db.query('SELECT * FROM home_office_time WHERE userId = ?', [userId]);
+    res.json(homeOfficeTimes);
+  } catch (error) {
+    console.error('Cannot get Home-Office-Time:', error.message);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
 
 app.get("/", (req, res) => {
   res.send("Home Office API Working!");
@@ -71,7 +87,7 @@ app.post("/login", (req, res) => {
     [user_name],
     async (err, results) => {
       if (err) {
-        console.error("Database error:", err);
+
         res.status(500).json({ error: "Internal Server Error" });
         return;
       }
@@ -91,7 +107,7 @@ app.post("/login", (req, res) => {
           return res.status(401).json({ error: "Invalid Login data" });
         }
       } catch (error) {
-        console.error("Password error:", error);
+
         return res.status(500).json({ error: "Internal Server Error" });
       }
     }
@@ -101,3 +117,5 @@ app.post("/login", (req, res) => {
 app.listen(PORT, () => {
   console.log(`Listening on port ${PORT}`);
 });
+}
+startServer();
