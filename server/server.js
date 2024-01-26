@@ -1,5 +1,5 @@
 const express = require("express");
-const mysql = require("mysql2");
+const mysql = require("mysql2/promise");
 const { compare } = require("./bc");
 let secrets = require("../secrets.json");
 const cors = require("cors");
@@ -9,7 +9,7 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 
 // MySQL-Database connection
-const db = mysql.createConnection({
+const db = await mysql.createConnection({
   host: secrets.mySQL.host,
   user: secrets.mySQL.user,
   password: secrets.mySQL.password,
