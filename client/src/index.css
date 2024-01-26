@@ -13,9 +13,9 @@ code {
 }
 
 
-/* LOGIN STYLE */
-.login {
-  width: 70%;
+
+.container {
+  width: 50%;
   text-align: left;
   font-size: 20px;
   color: cornflowerblue;
@@ -27,7 +27,7 @@ code {
     margin-bottom: 10px;
   }
 
-  .login-form {
+  .wrapper {
     padding: 20px;
     border: 3px solid cornflowerblue;
     border-radius: 10px;
@@ -39,11 +39,16 @@ code {
     border: 3px solid cornflowerblue;
   }
 
+  .inner-box {
+    padding: 20px;
+    border: 3px solid cornflowerblue;
+  }
 
-  .input-group {
+
+  .content {
     margin: 10px;
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
     padding: 20px;
   }
 
@@ -55,6 +60,24 @@ code {
 
   .btn {
     margin: 0;
+    display: flex;
+    justify-content: center;
+
+    button {
+      padding: 5px 25px;
+      background: linear-gradient(to bottom, white, #c0d4f8);
+      color: cornflowerblue;
+      border-radius: 5px;
+      border: none;
+      cursor: pointer;
+    }
+
+
+    button:active {
+      box-shadow: 0 5px cornflowerblue;
+      transform: translateY(4px);
+
+    }
   }
 
   input:focus {
@@ -67,4 +90,27 @@ code {
   }
 }
 
-/* HOME-OFFICE CHECK-IN STYLE */
+
+img {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+}
+
+.active-img {
+  cursor: pointer;
+}
+
+.active-img:active {
+  box-shadow: 0px 5px cornflowerblue;
+  background-color: cornflowerblue;
+  border: 50%;
+  transform: translateY(4px);
+
+}
+
+@media screen and (max-width: 768px) {
+  .container {
+    width: 90%;
+  }
+}
