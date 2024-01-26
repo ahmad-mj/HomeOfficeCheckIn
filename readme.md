@@ -1,3 +1,44 @@
+# MySQL Database Connection with JavaScript
+
+This project demonstrates how to connect to a MySQL database using JavaScript in a Node.js environment.
+
+## Prerequisites
+
+- Node.js installed on your system
+- MySQL database installed and running
+
+## Installation
+
+1. Install the `mysql` package by running the following command in your terminal:
+npm install mysql
+
+2. Create a new JavaScript file (e.g., `index.js`) and import the `mysql` package: const mysql = require('mysql');
+
+3. Create a new connection to the MySQL database by using the `createConnection` method and passing in the connection details:
+const connection = mysql.createConnection({ host: 'localhost', user: 'root', password: 'pass@123', database: 'database_name' });
+
+Replace the `host`, `user`, `password`, and `database` fields with your own MySQL database details.
+
+4. Connect to the MySQL database by using the `connect` method:
+connection.connect((error) => { if (error) { console.error('Error connecting to MySQL database:', error); } else { console.log('Connected to MySQL database!'); } });
+
+5. Close the MySQL connection by using the `end` method: connection.end();
+
+
+6. Run the JavaScript file by using the following command in your terminal: node index.js
+
+
+
+Replace `index.js` with the name of your JavaScript file.
+
+This will connect to the MySQL database and log a message to the console if the connection is successful. You can then use the `connection` object to execute queries and perform other database operations.
+
+## License
+
+This project is licensed under the MIT License.
+
+
+
 Aufgabenstellung:
 
 Es soll eine Anwendung erstellt werden, die es Mitarbeitern ermöglicht, sich im HomeOffice anzumelden und die automatisch die Zeiten an das Personalbüro übermittelt.
