@@ -5,7 +5,7 @@ USE home_office;
 CREATE TABLE users (
      id INT PRIMARY KEY AUTO_INCREMENT,
      user_name           VARCHAR(50) NOT NULL CHECK (user_name != ''),
-     hashed_password VARCHAR(50) NOT NULL CHECK (hashed_password != ''),
+     hashed_password  VARCHAR(255) NOT NULL CHECK (hashed_password != ''),
      created         TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     
     );
